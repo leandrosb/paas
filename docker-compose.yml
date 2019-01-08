@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  terraform:
+    image: hashicorp/terraform:latest
+    container_name: provisionador
+
+  rundeck:
+    container_name: rundeck
+    image: rundeck/rundeck:3.0.8
+    ports:
+      - "4440:4440"
+      - "4443:4443"
+    links:
+      - terraform:terraform 
+      

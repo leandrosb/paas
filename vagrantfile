@@ -1,0 +1,20 @@
+VAGRANT_VM_PROVIDER = "virtualbox"
+
+Vagrant.configure("2") do |config|
+
+
+  config.vm.define "web" do |web|
+    web.vm.box = "centos/7"
+    web.vm.hostname = "testeWebFlask"
+    web.vm.network :private_network, ip: "192.168.10.2"
+    web.vm.provision "shell", inline: "yum install  -y https://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm"
+    web.vm.provision "shell", inline: "yum install -y python36-pyvmomi.noarch python34-pip.noarch"
+    
+    web.vm.provider :virtualbox do |v|
+        v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+        v.customize ["modifyvm", :id, "--memory", 128]
+        v.customize ["modifyvm", :id, "--cpus", 1]
+    end
+  end
+
+end
